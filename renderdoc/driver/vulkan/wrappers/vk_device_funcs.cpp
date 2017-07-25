@@ -271,6 +271,20 @@ ReplayStatus WrappedVulkan::Initialise(VkInitParams &params)
   for(uint32_t i = 0; i < count; i++)
     GetResourceManager()->WrapResource(m_Instance, m_ReplayPhysicalDevices[i]);
 
+  {
+    RDCLOG("During Replay %u physical devices:", count);
+    for(uint32_t i = 0; i < count; i++)
+    {
+      VkPhysicalDeviceProperties props;
+      ObjDisp(m_Instance)->GetPhysicalDeviceProperties(Unwrap(m_ReplayPhysicalDevices[i]), &props);
+
+      VkDriverInfo ver(props);
+
+      RDCLOG("[%u] - %s (ver %u.%u patch 0x%x) - %04x:%04x", i, props.deviceName, ver.Major(),
+             ver.Minor(), ver.Patch(), props.vendorID, props.deviceID);
+    }
+  }
+
   return ReplayStatus::Succeeded;
 }
 
@@ -406,6 +420,24 @@ VkResult WrappedVulkan::vkCreateInstance(const VkInstanceCreateInfo *pCreateInfo
   if(ret == VK_SUCCESS)
   {
     RDCLOG("Initialised capture layer in Vulkan instance.");
+  }
+
+  {
+    uint32_t count = 0;
+    ObjDisp(m_Instance)->EnumeratePhysicalDevices(Unwrap(m_Instance), &count, NULL);
+    VkPhysicalDevice physDev[16];
+    ObjDisp(m_Instance)->EnumeratePhysicalDevices(Unwrap(m_Instance), &count, physDev);
+    RDCLOG("During Capture %u physical devices:", count);
+    for(uint32_t i = 0; i < count; i++)
+    {
+      VkPhysicalDeviceProperties props;
+      ObjDisp(m_Instance)->GetPhysicalDeviceProperties(physDev[i], &props);
+
+      VkDriverInfo ver(props);
+
+      RDCLOG("[%u] - %s (ver %u.%u patch 0x%x) - %04x:%04x", i, props.deviceName, ver.Major(),
+             ver.Minor(), ver.Patch(), props.vendorID, props.deviceID);
+    }
   }
 
   return ret;
@@ -583,9 +615,11 @@ bool WrappedVulkan::Serialise_vkEnumeratePhysicalDevices(Serialiser *localSerial
     }
 
     // match up physical devices to those available on replay as best as possible. In general
-    // hopefully the most common case is when there's a precise match, and maybe the order changed.
+    // hopefully the most common case is when there's a precise match, and maybe the order
+    // changed.
     //
-    // If more GPUs were present on replay than during capture, we map many-to-one which might have
+    // If more GPUs were present on replay than during capture, we map many-to-one which might
+    // have
     // bad side-effects as e.g. we have to pick one memidxmap, but this is as good as we can do.
 
     uint32_t bestIdx = 0;
@@ -668,7 +702,8 @@ bool WrappedVulkan::Serialise_vkEnumeratePhysicalDevices(Serialiser *localSerial
     {
       // error if we're remapping multiple physical devices to the same best match
       RDCERR(
-          "Mappnig multiple capture-time physical devices to a single replay-time physical device."
+          "Mappnig multiple capture-time physical devices to a single replay-time physical "
+          "device."
           "This means the HW has changed between capture and replay and may cause bugs.");
     }
     else
@@ -745,7 +780,8 @@ VkResult WrappedVulkan::vkEnumeratePhysicalDevices(VkInstance instance,
 
         instrecord->AddParent(record);
 
-        // treat physical devices as pool members of the instance (ie. freed when the instance dies)
+        // treat physical devices as pool members of the instance (ie. freed when the instance
+        // dies)
         {
           instrecord->LockChunks();
           instrecord->pooledChildren.push_back(record);
@@ -1002,7 +1038,8 @@ bool WrappedVulkan::Serialise_vkCreateDevice(Serialiser *localSerialiser,
       {
         SAFE_DELETE_ARRAY(props);
         RDCERR(
-            "Can't add a queue with required properties for RenderDoc! Unsupported configuration");
+            "Can't add a queue with required properties for RenderDoc! Unsupported "
+            "configuration");
       }
       else
       {
@@ -1034,7 +1071,8 @@ bool WrappedVulkan::Serialise_vkCreateDevice(Serialiser *localSerialiser,
       enabledFeatures.depthClamp = true;
     else
       RDCWARN(
-          "depthClamp = false, overlays like highlight drawcall won't show depth-clipped pixels.");
+          "depthClamp = false, overlays like highlight drawcall won't show depth-clipped "
+          "pixels.");
 
     if(availFeatures.fillModeNonSolid)
       enabledFeatures.fillModeNonSolid = true;
@@ -1057,7 +1095,8 @@ bool WrappedVulkan::Serialise_vkCreateDevice(Serialiser *localSerialiser,
       enabledFeatures.shaderStorageImageWriteWithoutFormat = true;
     else
       RDCWARN(
-          "shaderStorageImageWriteWithoutFormat = false, save/load from 2DMS textures will not be "
+          "shaderStorageImageWriteWithoutFormat = false, save/load from 2DMS textures will not "
+          "be "
           "possible");
 
     if(availFeatures.shaderStorageImageMultisample)
