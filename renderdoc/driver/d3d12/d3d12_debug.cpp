@@ -1575,9 +1575,13 @@ D3D12RootSignature D3D12DebugManager::GetRootSig(const void *data, size_t dataSi
       return D3D12RootSignature();
     }
 
+	ret.binary.insert(ret.binary.end(), (char*)data, ((char*)data)+dataSize);
+
     ret.Flags = desc->Flags;
 
     ret.params.resize(desc->NumParameters);
+
+	
 
     ret.dwordLength = 0;
 
@@ -1632,6 +1636,8 @@ D3D12RootSignature D3D12DebugManager::GetRootSig(const void *data, size_t dataSi
   }
 
   const D3D12_ROOT_SIGNATURE_DESC1 *desc = &verdesc->Desc_1_1;
+
+  ret.binary.insert(ret.binary.end(), (char*)data, ((char*)data) + dataSize);
 
   ret.Flags = desc->Flags;
 

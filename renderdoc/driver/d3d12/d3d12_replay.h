@@ -56,6 +56,7 @@ public:
 
   ShaderReflection *GetShader(ResourceId shader, string entryPoint);
 
+ 
   vector<string> GetDisassemblyTargets();
   string DisassembleShader(const ShaderReflection *refl, const string &target);
 
@@ -109,6 +110,8 @@ public:
   void GetBufferData(ResourceId buff, uint64_t offset, uint64_t len, vector<byte> &retData);
   byte *GetTextureData(ResourceId tex, uint32_t arrayIdx, uint32_t mip,
                        const GetTextureDataParams &params, size_t &dataSize);
+  int GetRootSignatureData(ResourceId rootsig, char* outBuffer);
+  RootSignatureTree GetRootSignature(ResourceId rsig);
 
   void BuildTargetShader(string source, string entry, const uint32_t compileFlags, ShaderStage type,
                          ResourceId *id, string *errors);

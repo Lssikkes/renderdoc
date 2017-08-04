@@ -280,6 +280,7 @@ struct D3D12RootSignature
   uint32_t numSpaces;
   uint32_t dwordLength;
 
+  vector<char> binary;
   D3D12_ROOT_SIGNATURE_FLAGS Flags;
   vector<D3D12RootSignatureParameter> params;
   vector<D3D12_STATIC_SAMPLER_DESC> samplers;

@@ -826,6 +826,15 @@ sample 0, etc.
 )");
   virtual rdctype::array<byte> GetTextureData(ResourceId tex, uint32_t arrayIdx, uint32_t mip) = 0;
 
+  DOCUMENT(R"(Retrieve the raw root signature bytes
+:param ResourceId rsig: Root signature index.
+:param char* outBuffer: Output root signature buffer to write into.
+:return: The amount of bytes used by the root signature.
+)");
+  virtual int GetRootSignatureData(ResourceId rsig, char* outBuffer) = 0;
+
+  virtual RootSignatureTree GetRootSignature(ResourceId rsig) = 0;
+
   static const uint32_t NoPreference = ~0U;
 
 protected:

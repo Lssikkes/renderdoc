@@ -256,6 +256,148 @@ ShaderReflection *D3D12Replay::GetShader(ResourceId shader, string entryPoint)
   return NULL;
 }
 
+int D3D12Replay::GetRootSignatureData(ResourceId rootsig, char* outBuffer)
+{
+	WrappedID3D12RootSignature *sh =
+		m_pDevice->GetResourceManager()->GetCurrentAs<WrappedID3D12RootSignature>(rootsig);
+
+	if (sh == nullptr)
+		return 0;
+
+	if(outBuffer)
+		memcpy(outBuffer, sh->sig.binary.data(), sh->sig.binary.size());
+	
+	return (int)sh->sig.binary.size();
+}
+
+RootSignatureTree D3D12Replay::GetRootSignature(ResourceId rootsig)
+{
+	WrappedID3D12RootSignature *sh =
+		m_pDevice->GetResourceManager()->GetCurrentAs<WrappedID3D12RootSignature>(rootsig);
+
+	if (sh == nullptr)
+		return RootSignatureTree();
+
+	std::vector<RootSignatureEntry> entries;
+
+	// * Parse root descriptor base
+	std::string flags;
+	if (sh->sig.Flags == 0) 
+	{
+		flags = "NONE";
+	}
+	else
+	{
+		if ((sh->sig.Flags & D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT) != 0)
+			flags += "ALLOW_IA_INPUT_LAYOUT ";
+		if ((sh->sig.Flags & D3D12_ROOT_SIGNATURE_FLAG_DENY_VERTEX_SHADER_ROOT_ACCESS) != 0)
+			flags += "DENY_VS ";
+		if ((sh->sig.Flags & D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS) != 0)
+			flags += "DENY_HS ";
+		if ((sh->sig.Flags & D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS) != 0)
+			flags += "DENY_DS ";
+		if ((sh->sig.Flags & D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS) != 0)
+			flags += "DENY_GS ";
+		if ((sh->sig.Flags & D3D12_ROOT_SIGNATURE_FLAG_DENY_PIXEL_SHADER_ROOT_ACCESS) != 0)
+			flags += "DENY_PS ";
+		if ((sh->sig.Flags & D3D12_ROOT_SIGNATURE_FLAG_ALLOW_STREAM_OUTPUT) != 0)
+			flags += "ALLOW_SO ";
+	}
+
+	char dwordLenStr[64];
+	sprintf_s(dwordLenStr, "%d", (int)sh->sig.dwordLength);
+	
+	entries.push_back({ "*", "FLAGS", flags.c_str() });
+	entries.push_back({ "*", "DWORD", dwordLenStr });
+	
+	// * Parse parameters
+	int paramI = 0;
+	for (auto& param : sh->sig.params)
+	{
+		std::string index;
+		char indexStr[64];
+		char data[1024];
+		int paramCurrentIndex=paramI++;
+		char* vis = "";
+
+		// index
+		sprintf_s(indexStr, "%s%d", "#", paramCurrentIndex);
+		index = indexStr;
+		
+		// visibility
+		switch (param.ShaderVisibility)
+		{
+			case D3D12_SHADER_VISIBILITY_ALL: vis = "ALL"; break;
+			case D3D12_SHADER_VISIBILITY_VERTEX: vis = "VS"; break;
+			case D3D12_SHADER_VISIBILITY_PIXEL: vis = "PS"; break;
+			case D3D12_SHADER_VISIBILITY_GEOMETRY: vis = "GS"; break;
+			case D3D12_SHADER_VISIBILITY_DOMAIN: vis = "DS"; break;
+			case D3D12_SHADER_VISIBILITY_HULL: vis = "HS"; break;
+			default: vis = "?"; break;
+		}
+
+		if (param.ParameterType == D3D12_ROOT_PARAMETER_TYPE_32BIT_CONSTANTS)
+		{	
+			sprintf_s(data, "b%u:%u vis:%s num:%u", param.Constants.ShaderRegister, param.Constants.RegisterSpace, vis, param.Constants.Num32BitValues);
+			entries.push_back({ index, "32BIT_CONSTANTS", data });
+		}
+		else if (param.ParameterType == D3D12_ROOT_PARAMETER_TYPE_CBV || param.ParameterType == D3D12_ROOT_PARAMETER_TYPE_SRV || param.ParameterType == D3D12_ROOT_PARAMETER_TYPE_UAV)
+		{
+			char* prefix;
+			char* type;
+			switch (param.ParameterType)
+			{
+			case D3D12_ROOT_PARAMETER_TYPE_CBV: prefix = "b"; type = "CBV"; break;
+			case D3D12_ROOT_PARAMETER_TYPE_SRV: prefix = "u"; type = "UAV"; break;
+			case D3D12_ROOT_PARAMETER_TYPE_UAV: prefix = "t"; type = "SRV"; break;
+			default: prefix = "?"; type = "UNKNOWN"; break;
+			}
+
+			sprintf_s(data, "%s%u:%u vis:%s flags:%x", prefix, param.Descriptor.ShaderRegister, param.Descriptor.RegisterSpace, vis, param.Descriptor.Flags);
+			entries.push_back({ index, type, data });
+		}
+		else if (param.ParameterType == D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE)
+		{
+			sprintf_s(data, "vis:%s ranges:%x", vis, param.DescriptorTable.NumDescriptorRanges);
+			entries.push_back({ index, "DESCRIPTOR_TABLE", data });
+			for (UINT i = 0; i < param.DescriptorTable.NumDescriptorRanges; i++)
+			{
+				auto& range = param.DescriptorTable.pDescriptorRanges[i];
+				sprintf_s(indexStr, "%s%d%s", "[", i, "]");
+				std::string rangeIndex = index + std::string(indexStr);
+								
+				char* type;
+				char* prefix;
+				switch (range.RangeType)
+				{
+					case D3D12_DESCRIPTOR_RANGE_TYPE_CBV: prefix = "b"; type = "TABLE_CBV"; break;
+					case D3D12_DESCRIPTOR_RANGE_TYPE_UAV: prefix = "u"; type = "TABLE_UAV"; break;
+					case D3D12_DESCRIPTOR_RANGE_TYPE_SRV: prefix = "t"; type = "TABLE_SRV"; break;
+					case D3D12_DESCRIPTOR_RANGE_TYPE_SAMPLER: prefix = "s"; type = "TABLE_SAMPLER"; break;
+					default: prefix = "?"; type = "UNKNOWN"; break;
+				}
+				
+				if (range.NumDescriptors == 1 || range.NumDescriptors == 0)
+				{
+					sprintf_s(data, "%s%u:%u offset:%d flags:%x", prefix, range.BaseShaderRegister, range.RegisterSpace, range.OffsetInDescriptorsFromTableStart, range.Flags);
+				}
+				else
+				{
+					sprintf_s(data, "%s%u-%u:%u offset:%d flags:%x", prefix, range.BaseShaderRegister, range.BaseShaderRegister + range.NumDescriptors-1, range.RegisterSpace, range.OffsetInDescriptorsFromTableStart, range.Flags);
+				}
+				entries.push_back({ rangeIndex, type, data });
+			}
+		}
+
+	}
+
+	RootSignatureTree ret;
+	ret.entries.create((int)entries.size());
+	for (int i = 0; i < (int)entries.size(); i++)
+		ret.entries[i] = entries[i];
+	return ret;
+}
+
 vector<string> D3D12Replay::GetDisassemblyTargets()
 {
   vector<string> ret;

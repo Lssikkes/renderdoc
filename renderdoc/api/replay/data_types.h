@@ -1051,3 +1051,22 @@ pixel.
 };
 
 DECLARE_REFLECTION_STRUCT(PixelModification);
+
+
+
+DOCUMENT("Root signature entry")
+struct RootSignatureEntry
+{
+	rdctype::str index;
+	rdctype::str type;
+	rdctype::str description;
+};
+
+DOCUMENT("Root signature tree")
+struct RootSignatureTree
+{
+	rdctype::array<RootSignatureEntry> entries;
+};
+
+DECLARE_REFLECTION_STRUCT(RootSignatureEntry);
+DECLARE_REFLECTION_STRUCT(RootSignatureTree);

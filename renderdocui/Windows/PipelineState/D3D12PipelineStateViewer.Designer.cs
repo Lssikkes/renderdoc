@@ -332,6 +332,9 @@
             TreelistView.TreeListColumn treeListColumn271 = ((TreelistView.TreeListColumn)(new TreelistView.TreeListColumn("Byte Offset", "Byte Offset")));
             TreelistView.TreeListColumn treeListColumn272 = ((TreelistView.TreeListColumn)(new TreelistView.TreeListColumn("Size", "Size")));
             TreelistView.TreeListColumn treeListColumn273 = ((TreelistView.TreeListColumn)(new TreelistView.TreeListColumn("Go", "Go")));
+            TreelistView.TreeListColumn treeListColumn274 = ((TreelistView.TreeListColumn)(new TreelistView.TreeListColumn("Index", "Index")));
+            TreelistView.TreeListColumn treeListColumn275 = ((TreelistView.TreeListColumn)(new TreelistView.TreeListColumn("Type", "Type")));
+            TreelistView.TreeListColumn treeListColumn276 = ((TreelistView.TreeListColumn)(new TreelistView.TreeListColumn("Description", "Description")));
             this.pipeFlow = new renderdocui.Controls.PipelineFlowchart();
             this.flowLayoutPanel6 = new System.Windows.Forms.FlowLayoutPanel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -528,6 +531,9 @@
             this.csSamplers = new TreelistView.TreeListView();
             this.groupBox36 = new System.Windows.Forms.GroupBox();
             this.csCBuffers = new TreelistView.TreeListView();
+            this.tabRtS = new System.Windows.Forms.TabPage();
+            this.groupBox23 = new System.Windows.Forms.GroupBox();
+            this.treeRootSignature = new TreelistView.TreeListView();
             this.rightclickMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.showDisabled = new System.Windows.Forms.ToolStripMenuItem();
             this.showEmpty = new System.Windows.Forms.ToolStripMenuItem();
@@ -715,6 +721,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.csSamplers)).BeginInit();
             this.groupBox36.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.csCBuffers)).BeginInit();
+            this.tabRtS.SuspendLayout();
+            this.groupBox23.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.treeRootSignature)).BeginInit();
             this.rightclickMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeListView1)).BeginInit();
             this.SuspendLayout();
@@ -827,6 +836,7 @@
             this.stageTabControl.Controls.Add(this.tabPS);
             this.stageTabControl.Controls.Add(this.tabOM);
             this.stageTabControl.Controls.Add(this.tabCS);
+            this.stageTabControl.Controls.Add(this.tabRtS);
             this.stageTabControl.HotTrack = true;
             this.stageTabControl.Location = new System.Drawing.Point(3, 104);
             this.stageTabControl.Multiline = true;
@@ -2945,7 +2955,7 @@
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 632F));
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 636F));
             this.tableLayoutPanel8.Controls.Add(this.forcedSampleCount, 7, 1);
             this.tableLayoutPanel8.Controls.Add(this.label14, 6, 1);
             this.tableLayoutPanel8.Controls.Add(this.frontCCW, 5, 0);
@@ -4383,7 +4393,7 @@
             this.compTableLayout.Location = new System.Drawing.Point(0, 0);
             this.compTableLayout.Name = "compTableLayout";
             this.compTableLayout.RowCount = 5;
-            this.compTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
+            this.compTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.compTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.compTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.compTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
@@ -4395,9 +4405,9 @@
             // 
             this.groupBox38.Controls.Add(this.csUAVs);
             this.groupBox38.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox38.Location = new System.Drawing.Point(3, 199);
+            this.groupBox38.Location = new System.Drawing.Point(3, 209);
             this.groupBox38.Name = "groupBox38";
-            this.groupBox38.Size = new System.Drawing.Size(1003, 130);
+            this.groupBox38.Size = new System.Drawing.Size(1003, 127);
             this.groupBox38.TabIndex = 19;
             this.groupBox38.TabStop = false;
             this.groupBox38.Text = "UAVs";
@@ -4448,7 +4458,7 @@
             this.csUAVs.RowOptions.HoverHighlight = true;
             this.csUAVs.RowOptions.ItemHeight = 20;
             this.csUAVs.RowOptions.ShowHeader = false;
-            this.csUAVs.Size = new System.Drawing.Size(997, 111);
+            this.csUAVs.Size = new System.Drawing.Size(997, 108);
             this.csUAVs.TabIndex = 1;
             this.csUAVs.Text = "Outputs";
             this.csUAVs.TreeColumn = 10;
@@ -4473,7 +4483,7 @@
             this.groupBox6.Location = new System.Drawing.Point(3, 3);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this.groupBox6.Size = new System.Drawing.Size(1003, 54);
+            this.groupBox6.Size = new System.Drawing.Size(1003, 67);
             this.groupBox6.TabIndex = 17;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Shader";
@@ -4718,9 +4728,9 @@
             // 
             this.groupBox34.Controls.Add(this.csResources);
             this.groupBox34.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox34.Location = new System.Drawing.Point(3, 63);
+            this.groupBox34.Location = new System.Drawing.Point(3, 76);
             this.groupBox34.Name = "groupBox34";
-            this.groupBox34.Size = new System.Drawing.Size(1003, 130);
+            this.groupBox34.Size = new System.Drawing.Size(1003, 127);
             this.groupBox34.TabIndex = 14;
             this.groupBox34.TabStop = false;
             this.groupBox34.Text = "Resources";
@@ -4771,7 +4781,7 @@
             this.csResources.RowOptions.HoverHighlight = true;
             this.csResources.RowOptions.ItemHeight = 20;
             this.csResources.RowOptions.ShowHeader = false;
-            this.csResources.Size = new System.Drawing.Size(997, 111);
+            this.csResources.Size = new System.Drawing.Size(997, 108);
             this.csResources.TabIndex = 1;
             this.csResources.Text = "Outputs";
             this.csResources.TreeColumn = 10;
@@ -4790,9 +4800,9 @@
             // 
             this.groupBox35.Controls.Add(this.csSamplers);
             this.groupBox35.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox35.Location = new System.Drawing.Point(3, 335);
+            this.groupBox35.Location = new System.Drawing.Point(3, 342);
             this.groupBox35.Name = "groupBox35";
-            this.groupBox35.Size = new System.Drawing.Size(1003, 130);
+            this.groupBox35.Size = new System.Drawing.Size(1003, 127);
             this.groupBox35.TabIndex = 13;
             this.groupBox35.TabStop = false;
             this.groupBox35.Text = "Samplers";
@@ -4831,7 +4841,7 @@
             this.csSamplers.RowOptions.HoverHighlight = true;
             this.csSamplers.RowOptions.ItemHeight = 20;
             this.csSamplers.RowOptions.ShowHeader = false;
-            this.csSamplers.Size = new System.Drawing.Size(997, 111);
+            this.csSamplers.Size = new System.Drawing.Size(997, 108);
             this.csSamplers.TabIndex = 12;
             this.csSamplers.Text = "Samplers";
             this.csSamplers.TreeColumn = -1;
@@ -4846,9 +4856,9 @@
             // 
             this.groupBox36.Controls.Add(this.csCBuffers);
             this.groupBox36.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox36.Location = new System.Drawing.Point(3, 471);
+            this.groupBox36.Location = new System.Drawing.Point(3, 475);
             this.groupBox36.Name = "groupBox36";
-            this.groupBox36.Size = new System.Drawing.Size(1003, 131);
+            this.groupBox36.Size = new System.Drawing.Size(1003, 127);
             this.groupBox36.TabIndex = 12;
             this.groupBox36.TabStop = false;
             this.groupBox36.Text = "Constant Buffers";
@@ -4887,7 +4897,7 @@
             this.csCBuffers.RowOptions.HoverHighlight = true;
             this.csCBuffers.RowOptions.ItemHeight = 20;
             this.csCBuffers.RowOptions.ShowHeader = false;
-            this.csCBuffers.Size = new System.Drawing.Size(997, 112);
+            this.csCBuffers.Size = new System.Drawing.Size(997, 108);
             this.csCBuffers.TabIndex = 11;
             this.csCBuffers.Text = "Constant Buffers";
             this.csCBuffers.TreeColumn = 6;
@@ -4899,6 +4909,56 @@
             this.csCBuffers.KeyDown += new System.Windows.Forms.KeyEventHandler(this.defaultCopyPaste_KeyDown);
             this.csCBuffers.Leave += new System.EventHandler(this.disableSelection_Leave);
             this.csCBuffers.MouseClick += new System.Windows.Forms.MouseEventHandler(this.hideDisabledEmpty_MouseClick);
+            // 
+            // tabRtS
+            // 
+            this.tabRtS.Controls.Add(this.groupBox23);
+            this.tabRtS.Location = new System.Drawing.Point(4, 22);
+            this.tabRtS.Name = "tabRtS";
+            this.tabRtS.Padding = new System.Windows.Forms.Padding(3);
+            this.tabRtS.Size = new System.Drawing.Size(1009, 605);
+            this.tabRtS.TabIndex = 9;
+            this.tabRtS.Text = "Root Signature";
+            this.tabRtS.UseVisualStyleBackColor = true;
+            // 
+            // groupBox23
+            // 
+            this.groupBox23.Controls.Add(this.treeRootSignature);
+            this.groupBox23.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox23.Location = new System.Drawing.Point(3, 3);
+            this.groupBox23.Name = "groupBox23";
+            this.groupBox23.Size = new System.Drawing.Size(1003, 599);
+            this.groupBox23.TabIndex = 10;
+            this.groupBox23.TabStop = false;
+            this.groupBox23.Text = "Root Signature";
+            // 
+            // treeRootSignature
+            // 
+            treeListColumn274.AutoSizeMinSize = 0;
+            treeListColumn274.Width = 100;
+            treeListColumn275.AutoSizeMinSize = 0;
+            treeListColumn275.Width = 100;
+            treeListColumn276.AutoSize = true;
+            treeListColumn276.AutoSizeMinSize = 100;
+            treeListColumn276.Width = 100;
+            this.treeRootSignature.Columns.AddRange(new TreelistView.TreeListColumn[] {
+            treeListColumn274,
+            treeListColumn275,
+            treeListColumn276});
+            this.treeRootSignature.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.treeRootSignature.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeRootSignature.GridLineColour = System.Drawing.SystemColors.ControlDark;
+            this.treeRootSignature.Location = new System.Drawing.Point(3, 16);
+            this.treeRootSignature.MultiSelect = false;
+            this.treeRootSignature.Name = "treeRootSignature";
+            this.treeRootSignature.RowOptions.ItemHeight = 20;
+            this.treeRootSignature.RowOptions.ShowHeader = false;
+            this.treeRootSignature.Size = new System.Drawing.Size(997, 580);
+            this.treeRootSignature.TabIndex = 12;
+            this.treeRootSignature.Text = "Root Signature";
+            this.treeRootSignature.ViewOptions.Indent = 0;
+            this.treeRootSignature.ViewOptions.ShowLine = false;
+            this.treeRootSignature.ViewOptions.ShowPlusMinus = false;
             // 
             // rightclickMenu
             // 
@@ -5140,6 +5200,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.csSamplers)).EndInit();
             this.groupBox36.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.csCBuffers)).EndInit();
+            this.tabRtS.ResumeLayout(false);
+            this.groupBox23.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.treeRootSignature)).EndInit();
             this.rightclickMenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.treeListView1)).EndInit();
             this.ResumeLayout(false);
@@ -5352,5 +5415,8 @@
         private TreelistView.TreeListView psUAVs;
         private System.Windows.Forms.GroupBox groupBox11;
         private TreelistView.TreeListView treeListView1;
+        private System.Windows.Forms.TabPage tabRtS;
+        private TreelistView.TreeListView treeRootSignature;
+        private System.Windows.Forms.GroupBox groupBox23;
     }
 }

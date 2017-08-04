@@ -658,6 +658,23 @@ namespace renderdoc
         public FetchDrawcall[] children;
     };
 
+    public struct RootSignatureEntry
+    {
+        [CustomMarshalAs(CustomUnmanagedType.UTF8TemplatedString)]
+        public string index;
+        [CustomMarshalAs(CustomUnmanagedType.UTF8TemplatedString)]
+        public string type;
+        [CustomMarshalAs(CustomUnmanagedType.UTF8TemplatedString)]
+        public string description;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public class RootSignatureTree
+    {
+        [CustomMarshalAs(CustomUnmanagedType.TemplatedArray)]
+        public RootSignatureEntry[] entries;
+    }
+
     [StructLayout(LayoutKind.Sequential)]
     public struct MeshFormat
     {

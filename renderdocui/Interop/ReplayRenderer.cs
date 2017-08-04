@@ -372,6 +372,11 @@ namespace renderdoc
         private static extern void ReplayRenderer_GetBufferData(IntPtr real, ResourceId buff, UInt64 offset, UInt64 len, IntPtr outdata);
         [DllImport("renderdoc.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         private static extern void ReplayRenderer_GetTextureData(IntPtr real, ResourceId tex, UInt32 arrayIdx, UInt32 mip, IntPtr outdata);
+        [DllImport("renderdoc.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+        private static extern int ReplayRenderer_GetRootSignatureData(IntPtr real, ResourceId rootsigIdx, IntPtr outdata);
+
+        [DllImport("renderdoc.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+        private static extern int ReplayRenderer_GetRootSignatureTree(IntPtr real, ResourceId rootsigIdx, IntPtr outdata);
 
         private IntPtr m_Real = IntPtr.Zero;
 
@@ -876,6 +881,30 @@ namespace renderdoc
 
             CustomMarshal.Free(mem);
 
+            return ret;
+        }
+
+        public byte[] GetRootSignatureData(ResourceId rootsig)
+        {
+            IntPtr mem = Marshal.AllocHGlobal(65536);
+
+            int usedMem = ReplayRenderer_GetRootSignatureData(m_Real, rootsig, mem);
+
+            var dest = new byte[usedMem];
+            Marshal.Copy(mem, dest, 0, usedMem);
+            Marshal.FreeHGlobal(mem);
+            return dest;
+        }
+
+        public RootSignatureTree GetRootSignature(ResourceId rootsig)
+        {
+            IntPtr mem = CustomMarshal.Alloc(typeof(RootSignatureTree));
+
+            ReplayRenderer_GetRootSignatureTree(m_Real, rootsig, mem);
+
+            RootSignatureTree ret = (RootSignatureTree)CustomMarshal.PtrToStructure(mem, typeof(RootSignatureTree), true);
+
+            CustomMarshal.Free(mem);
             return ret;
         }
     };

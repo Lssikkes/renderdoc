@@ -188,7 +188,7 @@
             this.actionsGroup.AutoSize = true;
             this.actionsGroup.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.actionsGroup.Controls.Add(this.actionsFlow);
-            this.actionsGroup.Location = new System.Drawing.Point(10, 531);
+            this.actionsGroup.Location = new System.Drawing.Point(10, 530);
             this.actionsGroup.Margin = new System.Windows.Forms.Padding(10);
             this.actionsGroup.Name = "actionsGroup";
             this.actionsGroup.Size = new System.Drawing.Size(195, 65);
@@ -248,7 +248,7 @@
             this.globalGroup.AutoSize = true;
             this.globalGroup.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.globalGroup.Controls.Add(this.globalFlow);
-            this.globalGroup.Location = new System.Drawing.Point(10, 616);
+            this.globalGroup.Location = new System.Drawing.Point(10, 615);
             this.globalGroup.Margin = new System.Windows.Forms.Padding(10);
             this.globalGroup.Name = "globalGroup";
             this.globalGroup.Size = new System.Drawing.Size(195, 80);
@@ -287,7 +287,7 @@
             this.capOptsGroup.AutoSize = true;
             this.capOptsGroup.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.capOptsGroup.Controls.Add(this.capOptsFlow);
-            this.capOptsGroup.Location = new System.Drawing.Point(10, 398);
+            this.capOptsGroup.Location = new System.Drawing.Point(10, 397);
             this.capOptsGroup.Margin = new System.Windows.Forms.Padding(10);
             this.capOptsGroup.Name = "capOptsGroup";
             this.capOptsGroup.Size = new System.Drawing.Size(195, 113);
@@ -473,7 +473,7 @@
             this.panel2.Controls.Add(this.save);
             this.panel2.Controls.Add(this.close);
             this.panel2.Controls.Add(this.launch);
-            this.panel2.Location = new System.Drawing.Point(3, 709);
+            this.panel2.Location = new System.Drawing.Point(3, 708);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(209, 26);
             this.panel2.TabIndex = 8;
@@ -514,12 +514,12 @@
             this.close.UseVisualStyleBackColor = true;
             this.close.Click += new System.EventHandler(this.close_Click);
             // 
-            // capture
+            // launch
             // 
             this.launch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.launch.Location = new System.Drawing.Point(104, 3);
             this.launch.Margin = new System.Windows.Forms.Padding(0);
-            this.launch.Name = "capture";
+            this.launch.Name = "launch";
             this.launch.Size = new System.Drawing.Size(52, 23);
             this.launch.TabIndex = 21;
             this.launch.Text = "Launch";
@@ -716,7 +716,7 @@
             this.mainTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.mainTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.mainTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.mainTableLayout.Size = new System.Drawing.Size(215, 738);
+            this.mainTableLayout.Size = new System.Drawing.Size(215, 737);
             this.mainTableLayout.TabIndex = 8;
             this.mainTableLayout.Layout += new System.Windows.Forms.LayoutEventHandler(this.mainTableLayout_Layout);
             // 
@@ -768,7 +768,7 @@
             this.vulkanLayerWarn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.vulkanLayerWarn.Image = global::renderdocui.Properties.Resources.information;
             this.vulkanLayerWarn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.vulkanLayerWarn.Location = new System.Drawing.Point(3, 340);
+            this.vulkanLayerWarn.Location = new System.Drawing.Point(3, 339);
             this.vulkanLayerWarn.Margin = new System.Windows.Forms.Padding(3, 10, 3, 10);
             this.vulkanLayerWarn.Name = "vulkanLayerWarn";
             this.vulkanLayerWarn.Size = new System.Drawing.Size(209, 38);

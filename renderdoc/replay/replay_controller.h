@@ -182,6 +182,8 @@ public:
 
   rdctype::array<byte> GetBufferData(ResourceId buff, uint64_t offset, uint64_t len);
   rdctype::array<byte> GetTextureData(ResourceId buff, uint32_t arrayIdx, uint32_t mip);
+  int GetRootSignatureData(ResourceId rsig, char* outData);
+  RootSignatureTree GetRootSignature(ResourceId rsig);
 
   bool SaveTexture(const TextureSave &saveData, const char *path);
 

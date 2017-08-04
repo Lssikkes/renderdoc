@@ -91,6 +91,7 @@ public:
   virtual vector<DebugMessage> GetDebugMessages() = 0;
 
   virtual ShaderReflection *GetShader(ResourceId shader, string entryPoint) = 0;
+  
 
   virtual vector<string> GetDisassemblyTargets() = 0;
   virtual string DisassembleShader(const ShaderReflection *refl, const string &target) = 0;
@@ -121,6 +122,8 @@ public:
                              vector<byte> &retData) = 0;
   virtual byte *GetTextureData(ResourceId tex, uint32_t arrayIdx, uint32_t mip,
                                const GetTextureDataParams &params, size_t &dataSize) = 0;
+  virtual int GetRootSignatureData(ResourceId rootsig, char* outputData) { return 0; }
+  virtual RootSignatureTree GetRootSignature(ResourceId rsig) { return RootSignatureTree(); }
 
   virtual void BuildTargetShader(string source, string entry, const uint32_t compileFlags,
                                  ShaderStage type, ResourceId *id, string *errors) = 0;

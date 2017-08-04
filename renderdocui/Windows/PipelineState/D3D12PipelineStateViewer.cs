@@ -161,11 +161,13 @@ namespace renderdocui.Windows.PipelineState
                 new KeyValuePair<string,string>("PS", "Pixel Shader"),
                 new KeyValuePair<string,string>("OM", "Output Merger"),
                 new KeyValuePair<string,string>("CS", "Compute Shader"),
+                new KeyValuePair<string,string>("RSG", "Root Signature"),
             });
 
             pipeFlow.IsolateStage(8); // compute shader isolated
+            pipeFlow.IsolateStage(9); // root sig isolated
 
-            pipeFlow.SetStagesEnabled(new bool[] { true, true, true, true, true, true, true, true, true });
+            pipeFlow.SetStagesEnabled(new bool[] { true, true, true, true, true, true, true, true, true, true });
 
             //Icon = global::renderdocui.Properties.Resources.icon;
 
@@ -850,6 +852,8 @@ namespace renderdocui.Windows.PipelineState
             if (!m_Core.LogLoaded)
                 return;
 
+            UpdateRootSignature();
+
             FetchTexture[] texs = m_Core.CurTextures;
             FetchBuffer[] bufs = m_Core.CurBuffers;
             D3D12PipelineState state = m_Core.CurD3D12PipelineState;
@@ -1468,11 +1472,11 @@ namespace renderdocui.Windows.PipelineState
             // highlight the appropriate stages in the flowchart
             if (draw == null)
             {
-                pipeFlow.SetStagesEnabled(new bool[] { true, true, true, true, true, true, true, true, true });
+                pipeFlow.SetStagesEnabled(new bool[] { true, true, true, true, true, true, true, true, true, true });
             }
             else if ((draw.flags & DrawcallFlags.Dispatch) != 0)
             {
-                pipeFlow.SetStagesEnabled(new bool[] { false, false, false, false, false, false, false, false, true });
+                pipeFlow.SetStagesEnabled(new bool[] { false, false, false, false, false, false, false, false, true, true });
             }
             else
             {
@@ -1485,7 +1489,8 @@ namespace renderdocui.Windows.PipelineState
                     true,
                     state.m_PS.Shader != ResourceId.Null,
                     true,
-                    false
+                    false,
+                    true
                 });
 
                 // if(streamout only)
@@ -3357,5 +3362,30 @@ div.stage table tr td { border-right: 1px solid #AAAAAA; background-color: #EEEE
                 ExportHTML(pipeExportDialog.FileName);
             }
         }
+
+        [System.Runtime.InteropServices.DllImport("d3d12.dll", CallingConvention = System.Runtime.InteropServices.CallingConvention.StdCall)]
+        static extern int D3D12CreateRootSignatureDeserializer(System.IntPtr srcData, ulong srcDataLength, ref Guid riid, ref System.IntPtr deserializerDest);
+
+        private void UpdateRootSignature()
+        {
+            if (m_Core.CurD3D12PipelineState.rootSig == ResourceId.Null)
+            {
+                treeRootSignature.Nodes.Clear();
+                return;
+            }
+            
+            RootSignatureTree rst = null;
+            m_Core.Renderer.Invoke((ReplayRenderer r) =>
+            {
+                rst = r.GetRootSignature(m_Core.CurD3D12PipelineState.rootSig);
+            });
+            
+            treeRootSignature.Nodes.Clear();
+            foreach(var row in rst.entries)
+            {
+                treeRootSignature.Nodes.Add(new object[] { row.index, row.type, row.description });
+            }
+        }
+
     }
 }

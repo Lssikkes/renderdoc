@@ -35,8 +35,8 @@
             System.Windows.Forms.Label label1;
             System.Windows.Forms.GroupBox opsBox;
             System.Windows.Forms.Label label2;
-            TreelistView.TreeListColumn treeListColumn1 = ((TreelistView.TreeListColumn)(new TreelistView.TreeListColumn("hostname", "Hostname")));
-            TreelistView.TreeListColumn treeListColumn2 = ((TreelistView.TreeListColumn)(new TreelistView.TreeListColumn("running", "Running")));
+            TreelistView.TreeListColumn treeListColumn5 = ((TreelistView.TreeListColumn)(new TreelistView.TreeListColumn("hostname", "Hostname")));
+            TreelistView.TreeListColumn treeListColumn6 = ((TreelistView.TreeListColumn)(new TreelistView.TreeListColumn("running", "Running")));
             this.hostname = new System.Windows.Forms.TextBox();
             this.runCommand = new System.Windows.Forms.TextBox();
             this.addUpdateHost = new System.Windows.Forms.Button();
@@ -46,8 +46,8 @@
             this.refreshAll = new System.Windows.Forms.Button();
             this.lookupsProgressFlow = new System.Windows.Forms.FlowLayoutPanel();
             this.progressPicture = new System.Windows.Forms.PictureBox();
-            this.hosts = new TreelistView.TreeListView();
             this.remoteCountLabel = new System.Windows.Forms.Label();
+            this.hosts = new TreelistView.TreeListView();
             tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             basicConfigBox = new System.Windows.Forms.GroupBox();
             tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -266,17 +266,28 @@
             label2.Text = "Remote connections in progress. Please wait...";
             label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // remoteCountLabel
+            // 
+            this.remoteCountLabel.AutoSize = true;
+            this.remoteCountLabel.Dock = System.Windows.Forms.DockStyle.Left;
+            this.remoteCountLabel.Location = new System.Drawing.Point(343, 0);
+            this.remoteCountLabel.Name = "remoteCountLabel";
+            this.remoteCountLabel.Size = new System.Drawing.Size(118, 22);
+            this.remoteCountLabel.TabIndex = 2;
+            this.remoteCountLabel.Text = "999 connections active";
+            this.remoteCountLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // hosts
             // 
             this.hosts.AlwaysDisplayVScroll = true;
-            treeListColumn1.AutoSize = true;
-            treeListColumn1.AutoSizeMinSize = 15;
-            treeListColumn1.Width = 48;
-            treeListColumn2.AutoSizeMinSize = 0;
-            treeListColumn2.Width = 250;
+            treeListColumn5.AutoSize = true;
+            treeListColumn5.AutoSizeMinSize = 15;
+            treeListColumn5.Width = 48;
+            treeListColumn6.AutoSizeMinSize = 0;
+            treeListColumn6.Width = 250;
             this.hosts.Columns.AddRange(new TreelistView.TreeListColumn[] {
-            treeListColumn1,
-            treeListColumn2});
+            treeListColumn5,
+            treeListColumn6});
             tableLayoutPanel1.SetColumnSpan(this.hosts, 2);
             this.hosts.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.hosts.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -292,17 +303,6 @@
             this.hosts.NodeDoubleClicked += new TreelistView.TreeListView.NodeDoubleClickedHandler(this.hosts_NodeDoubleClicked);
             this.hosts.KeyDown += new System.Windows.Forms.KeyEventHandler(this.hosts_KeyDown);
             // 
-            // remoteCountLabel
-            // 
-            this.remoteCountLabel.AutoSize = true;
-            this.remoteCountLabel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.remoteCountLabel.Location = new System.Drawing.Point(343, 0);
-            this.remoteCountLabel.Name = "remoteCountLabel";
-            this.remoteCountLabel.Size = new System.Drawing.Size(118, 22);
-            this.remoteCountLabel.TabIndex = 2;
-            this.remoteCountLabel.Text = "999 connections active";
-            this.remoteCountLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // RemoteManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -311,9 +311,9 @@
             this.Controls.Add(tableLayoutPanel1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Name = "RemoteManager";
-            this.MinimizeBox = false;
             this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "RemoteManager";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Remote Host Manager";
             this.Load += new System.EventHandler(this.RemoteManager_Load);

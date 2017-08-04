@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+            TreelistView.TreeListColumn treeListColumn1 = new TreelistView.TreeListColumn("Section", "Section");
             System.Windows.Forms.GroupBox groupBox1;
             System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
             System.Windows.Forms.Label label20;
@@ -57,9 +58,9 @@
             System.Windows.Forms.Label label16;
             System.Windows.Forms.Label label17;
             System.Windows.Forms.Label label26;
-            TreelistView.TreeListColumn treeListColumn1 = new TreelistView.TreeListColumn("Section", "Section");
             this.settingsTabs = new renderdocui.Controls.TablessControl();
-            this.generalTab = new System.Windows.Forms.TabPage();
+            this.pagesTree = new TreelistView.TreeListView();
+            this.ok = new System.Windows.Forms.Button();
             this.AllowGlobalHook = new System.Windows.Forms.CheckBox();
             this.Formatter_PosExp = new System.Windows.Forms.NumericUpDown();
             this.Formatter_NegExp = new System.Windows.Forms.NumericUpDown();
@@ -74,15 +75,11 @@
             this.browseSaveCaptureDirectory = new System.Windows.Forms.Button();
             this.saveDirectory = new System.Windows.Forms.TextBox();
             this.tempDirectory = new System.Windows.Forms.TextBox();
-            this.corePage = new System.Windows.Forms.TabPage();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.chooseSearchPaths = new System.Windows.Forms.Button();
-            this.texViewTab = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.TextureViewer_ResetRange = new System.Windows.Forms.CheckBox();
             this.TextureViewer_PerTexSettings = new System.Windows.Forms.CheckBox();
             this.label14 = new System.Windows.Forms.Label();
-            this.shadViewTab = new System.Windows.Forms.TabPage();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
             this.label23 = new System.Windows.Forms.Label();
@@ -95,7 +92,6 @@
             this.label24 = new System.Windows.Forms.Label();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.ShaderViewer_FriendlyNaming = new System.Windows.Forms.CheckBox();
-            this.eventTab = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.EventBrowser_TimeUnit = new System.Windows.Forms.ComboBox();
             this.EventBrowser_HideEmpty = new System.Windows.Forms.CheckBox();
@@ -104,19 +100,23 @@
             this.EventBrowser_ApplyColours = new System.Windows.Forms.CheckBox();
             this.EventBrowser_ColourEventRow = new System.Windows.Forms.CheckBox();
             this.EventBrowser_AddFake = new System.Windows.Forms.CheckBox();
-            this.androidTab = new System.Windows.Forms.TabPage();
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.label25 = new System.Windows.Forms.Label();
             this.maxConnectTimeout = new System.Windows.Forms.NumericUpDown();
             this.label36 = new System.Windows.Forms.Label();
             this.adbPath = new System.Windows.Forms.TextBox();
             this.browseAdbPath = new System.Windows.Forms.Button();
-            this.pagesTree = new TreelistView.TreeListView();
-            this.ok = new System.Windows.Forms.Button();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.browserCaptureDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.browseExtDisassembleDialog = new System.Windows.Forms.OpenFileDialog();
+            this.generalTab = new System.Windows.Forms.TabPage();
+            this.corePage = new System.Windows.Forms.TabPage();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.texViewTab = new System.Windows.Forms.TabPage();
+            this.shadViewTab = new System.Windows.Forms.TabPage();
+            this.eventTab = new System.Windows.Forms.TabPage();
+            this.androidTab = new System.Windows.Forms.TabPage();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
             tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             groupBox1 = new System.Windows.Forms.GroupBox();
             tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -145,33 +145,32 @@
             label17 = new System.Windows.Forms.Label();
             label26 = new System.Windows.Forms.Label();
             tableLayoutPanel1.SuspendLayout();
-            this.settingsTabs.SuspendLayout();
-            this.generalTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pagesTree)).BeginInit();
             groupBox1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Formatter_PosExp)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Formatter_NegExp)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Formatter_MaxFigures)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Formatter_MinFigures)).BeginInit();
-            this.corePage.SuspendLayout();
-            this.groupBox5.SuspendLayout();
             tableLayoutPanel6.SuspendLayout();
-            this.texViewTab.SuspendLayout();
             groupBox2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
-            this.shadViewTab.SuspendLayout();
             groupBox3.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
-            this.eventTab.SuspendLayout();
             groupBox4.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.maxConnectTimeout)).BeginInit();
+            this.generalTab.SuspendLayout();
+            this.corePage.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.texViewTab.SuspendLayout();
+            this.shadViewTab.SuspendLayout();
+            this.eventTab.SuspendLayout();
             this.androidTab.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.tableLayoutPanel8.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.maxConnectTimeout)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pagesTree)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -194,12 +193,6 @@
             // settingsTabs
             // 
             this.settingsTabs.Alignment = System.Windows.Forms.TabAlignment.Left;
-            this.settingsTabs.Controls.Add(this.generalTab);
-            this.settingsTabs.Controls.Add(this.corePage);
-            this.settingsTabs.Controls.Add(this.texViewTab);
-            this.settingsTabs.Controls.Add(this.shadViewTab);
-            this.settingsTabs.Controls.Add(this.eventTab);
-            this.settingsTabs.Controls.Add(this.androidTab);
             this.settingsTabs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.settingsTabs.Location = new System.Drawing.Point(164, 3);
             this.settingsTabs.Multiline = true;
@@ -208,16 +201,37 @@
             this.settingsTabs.Size = new System.Drawing.Size(370, 416);
             this.settingsTabs.TabIndex = 0;
             // 
-            // generalTab
+            // pagesTree
             // 
-            this.generalTab.Controls.Add(groupBox1);
-            this.generalTab.Location = new System.Drawing.Point(23, 4);
-            this.generalTab.Name = "generalTab";
-            this.generalTab.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.generalTab.Size = new System.Drawing.Size(343, 408);
-            this.generalTab.TabIndex = 0;
-            this.generalTab.Text = "General";
-            this.generalTab.UseVisualStyleBackColor = true;
+            treeListColumn1.AutoSize = true;
+            treeListColumn1.AutoSizeMinSize = 0;
+            treeListColumn1.Width = 50;
+            this.pagesTree.Columns.AddRange(new TreelistView.TreeListColumn[] {
+            ((TreelistView.TreeListColumn)(treeListColumn1))});
+            this.pagesTree.ColumnsOptions.HeaderHeight = 1;
+            this.pagesTree.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.pagesTree.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pagesTree.Location = new System.Drawing.Point(3, 3);
+            this.pagesTree.MultiSelect = false;
+            this.pagesTree.Name = "pagesTree";
+            this.pagesTree.RowOptions.ShowHeader = false;
+            this.pagesTree.Size = new System.Drawing.Size(155, 416);
+            this.pagesTree.TabIndex = 0;
+            this.pagesTree.ViewOptions.ShowGridLines = false;
+            this.pagesTree.ViewOptions.ShowLine = false;
+            this.pagesTree.ViewOptions.ShowPlusMinus = false;
+            this.pagesTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.pagesTree_AfterSelect);
+            // 
+            // ok
+            // 
+            this.ok.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ok.Location = new System.Drawing.Point(459, 425);
+            this.ok.Name = "ok";
+            this.ok.Size = new System.Drawing.Size(75, 23);
+            this.ok.TabIndex = 100;
+            this.ok.Text = "OK";
+            this.ok.UseVisualStyleBackColor = true;
+            this.ok.Click += new System.EventHandler(this.ok_Click);
             // 
             // groupBox1
             // 
@@ -373,7 +387,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             label6.AutoSize = true;
             label6.Location = new System.Drawing.Point(3, 87);
-            label6.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            label6.Margin = new System.Windows.Forms.Padding(3);
             label6.Name = "label6";
             label6.Size = new System.Drawing.Size(228, 20);
             label6.TabIndex = 6;
@@ -389,7 +403,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             label4.AutoSize = true;
             label4.Location = new System.Drawing.Point(3, 61);
-            label4.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            label4.Margin = new System.Windows.Forms.Padding(3);
             label4.Name = "label4";
             label4.Size = new System.Drawing.Size(228, 20);
             label4.TabIndex = 4;
@@ -416,7 +430,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             label1.AutoSize = true;
             label1.Location = new System.Drawing.Point(3, 3);
-            label1.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            label1.Margin = new System.Windows.Forms.Padding(3);
             label1.Name = "label1";
             label1.Size = new System.Drawing.Size(228, 23);
             label1.TabIndex = 0;
@@ -430,7 +444,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             label2.AutoSize = true;
             label2.Location = new System.Drawing.Point(3, 32);
-            label2.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            label2.Margin = new System.Windows.Forms.Padding(3);
             label2.Name = "label2";
             label2.Size = new System.Drawing.Size(228, 23);
             label2.TabIndex = 2;
@@ -455,7 +469,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             label5.AutoSize = true;
             label5.Location = new System.Drawing.Point(3, 113);
-            label5.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            label5.Margin = new System.Windows.Forms.Padding(3);
             label5.Name = "label5";
             label5.Size = new System.Drawing.Size(228, 20);
             label5.TabIndex = 5;
@@ -471,7 +485,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             label7.AutoSize = true;
             label7.Location = new System.Drawing.Point(3, 139);
-            label7.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            label7.Margin = new System.Windows.Forms.Padding(3);
             label7.Name = "label7";
             label7.Size = new System.Drawing.Size(228, 20);
             label7.TabIndex = 7;
@@ -675,28 +689,6 @@
         "ved manually or deleted.\r\n\r\nDefaults to %TEMP%.");
             this.tempDirectory.TextChanged += new System.EventHandler(this.tempDirectory_TextChanged);
             // 
-            // corePage
-            // 
-            this.corePage.Controls.Add(this.groupBox5);
-            this.corePage.Location = new System.Drawing.Point(23, 4);
-            this.corePage.Name = "corePage";
-            this.corePage.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.corePage.Size = new System.Drawing.Size(344, 407);
-            this.corePage.TabIndex = 4;
-            this.corePage.Text = "Core";
-            this.corePage.UseVisualStyleBackColor = true;
-            // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(tableLayoutPanel6);
-            this.groupBox5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox5.Location = new System.Drawing.Point(3, 3);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(338, 401);
-            this.groupBox5.TabIndex = 0;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Core";
-            // 
             // tableLayoutPanel6
             // 
             tableLayoutPanel6.ColumnCount = 2;
@@ -719,13 +711,13 @@
             tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            tableLayoutPanel6.Size = new System.Drawing.Size(332, 382);
+            tableLayoutPanel6.Size = new System.Drawing.Size(331, 383);
             tableLayoutPanel6.TabIndex = 1;
             // 
             // chooseSearchPaths
             // 
             this.chooseSearchPaths.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.chooseSearchPaths.Location = new System.Drawing.Point(239, 3);
+            this.chooseSearchPaths.Location = new System.Drawing.Point(238, 3);
             this.chooseSearchPaths.Name = "chooseSearchPaths";
             this.chooseSearchPaths.Size = new System.Drawing.Size(90, 23);
             this.chooseSearchPaths.TabIndex = 1;
@@ -740,23 +732,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             label19.AutoSize = true;
             label19.Location = new System.Drawing.Point(3, 3);
-            label19.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            label19.Margin = new System.Windows.Forms.Padding(3);
             label19.Name = "label19";
-            label19.Size = new System.Drawing.Size(230, 23);
+            label19.Size = new System.Drawing.Size(229, 23);
             label19.TabIndex = 0;
             label19.Text = "Shader debug search paths";
             label19.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // texViewTab
-            // 
-            this.texViewTab.Controls.Add(groupBox2);
-            this.texViewTab.Location = new System.Drawing.Point(23, 4);
-            this.texViewTab.Name = "texViewTab";
-            this.texViewTab.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.texViewTab.Size = new System.Drawing.Size(344, 407);
-            this.texViewTab.TabIndex = 1;
-            this.texViewTab.Text = "Texture Viewer";
-            this.texViewTab.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
@@ -764,7 +745,7 @@
             groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             groupBox2.Location = new System.Drawing.Point(3, 3);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new System.Drawing.Size(338, 401);
+            groupBox2.Size = new System.Drawing.Size(337, 402);
             groupBox2.TabIndex = 0;
             groupBox2.TabStop = false;
             groupBox2.Text = "Texture Viewer";
@@ -785,14 +766,14 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(332, 382);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(331, 383);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // TextureViewer_ResetRange
             // 
             this.TextureViewer_ResetRange.AutoSize = true;
             this.TextureViewer_ResetRange.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TextureViewer_ResetRange.Location = new System.Drawing.Point(268, 3);
+            this.TextureViewer_ResetRange.Location = new System.Drawing.Point(267, 3);
             this.TextureViewer_ResetRange.Name = "TextureViewer_ResetRange";
             this.TextureViewer_ResetRange.Size = new System.Drawing.Size(61, 14);
             this.TextureViewer_ResetRange.TabIndex = 20;
@@ -804,7 +785,7 @@
             // 
             this.TextureViewer_PerTexSettings.AutoSize = true;
             this.TextureViewer_PerTexSettings.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TextureViewer_PerTexSettings.Location = new System.Drawing.Point(268, 23);
+            this.TextureViewer_PerTexSettings.Location = new System.Drawing.Point(267, 23);
             this.TextureViewer_PerTexSettings.Name = "TextureViewer_PerTexSettings";
             this.TextureViewer_PerTexSettings.Size = new System.Drawing.Size(61, 14);
             this.TextureViewer_PerTexSettings.TabIndex = 20;
@@ -820,9 +801,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             label10.AutoSize = true;
             label10.Location = new System.Drawing.Point(3, 3);
-            label10.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            label10.Margin = new System.Windows.Forms.Padding(3);
             label10.Name = "label10";
-            label10.Size = new System.Drawing.Size(259, 14);
+            label10.Size = new System.Drawing.Size(258, 14);
             label10.TabIndex = 4;
             label10.Text = "Reset Range on changing selection";
             label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -834,23 +815,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label14.AutoSize = true;
             this.label14.Location = new System.Drawing.Point(3, 23);
-            this.label14.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.label14.Margin = new System.Windows.Forms.Padding(3);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(259, 14);
+            this.label14.Size = new System.Drawing.Size(258, 14);
             this.label14.TabIndex = 4;
             this.label14.Text = "Visible channels && mip/slice saved per-texture";
             this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // shadViewTab
-            // 
-            this.shadViewTab.Controls.Add(groupBox3);
-            this.shadViewTab.Location = new System.Drawing.Point(23, 4);
-            this.shadViewTab.Name = "shadViewTab";
-            this.shadViewTab.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.shadViewTab.Size = new System.Drawing.Size(344, 407);
-            this.shadViewTab.TabIndex = 2;
-            this.shadViewTab.Text = "Shader Viewer";
-            this.shadViewTab.UseVisualStyleBackColor = true;
             // 
             // groupBox3
             // 
@@ -859,7 +829,7 @@
             groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             groupBox3.Location = new System.Drawing.Point(3, 3);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new System.Drawing.Size(338, 401);
+            groupBox3.Size = new System.Drawing.Size(337, 402);
             groupBox3.TabIndex = 0;
             groupBox3.TabStop = false;
             groupBox3.Text = "Shader Viewer";
@@ -870,7 +840,7 @@
             this.groupBox6.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox6.Location = new System.Drawing.Point(3, 60);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(332, 166);
+            this.groupBox6.Size = new System.Drawing.Size(331, 166);
             this.groupBox6.TabIndex = 46;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Vulkan";
@@ -898,7 +868,7 @@
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel7.Size = new System.Drawing.Size(326, 147);
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(325, 147);
             this.tableLayoutPanel7.TabIndex = 0;
             // 
             // label23
@@ -994,13 +964,13 @@
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(332, 44);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(331, 44);
             this.tableLayoutPanel4.TabIndex = 1;
             // 
             // ShaderViewer_FriendlyNaming
             // 
             this.ShaderViewer_FriendlyNaming.AutoSize = true;
-            this.ShaderViewer_FriendlyNaming.Location = new System.Drawing.Point(268, 3);
+            this.ShaderViewer_FriendlyNaming.Location = new System.Drawing.Point(267, 3);
             this.ShaderViewer_FriendlyNaming.Name = "ShaderViewer_FriendlyNaming";
             this.ShaderViewer_FriendlyNaming.Size = new System.Drawing.Size(15, 14);
             this.ShaderViewer_FriendlyNaming.TabIndex = 40;
@@ -1016,23 +986,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             label12.AutoSize = true;
             label12.Location = new System.Drawing.Point(3, 3);
-            label12.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            label12.Margin = new System.Windows.Forms.Padding(3);
             label12.Name = "label12";
-            label12.Size = new System.Drawing.Size(259, 14);
+            label12.Size = new System.Drawing.Size(258, 14);
             label12.TabIndex = 6;
             label12.Text = "Rename disassembly registers";
             label12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // eventTab
-            // 
-            this.eventTab.Controls.Add(groupBox4);
-            this.eventTab.Location = new System.Drawing.Point(23, 4);
-            this.eventTab.Name = "eventTab";
-            this.eventTab.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.eventTab.Size = new System.Drawing.Size(343, 408);
-            this.eventTab.TabIndex = 3;
-            this.eventTab.Text = "Event Browser";
-            this.eventTab.UseVisualStyleBackColor = true;
             // 
             // groupBox4
             // 
@@ -1084,7 +1043,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             label8.AutoSize = true;
             label8.Location = new System.Drawing.Point(3, 3);
-            label8.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            label8.Margin = new System.Windows.Forms.Padding(3);
             label8.Name = "label8";
             label8.Size = new System.Drawing.Size(258, 21);
             label8.TabIndex = 3;
@@ -1109,7 +1068,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             label9.AutoSize = true;
             label9.Location = new System.Drawing.Point(3, 49);
-            label9.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            label9.Margin = new System.Windows.Forms.Padding(3);
             label9.Name = "label9";
             label9.Size = new System.Drawing.Size(258, 14);
             label9.TabIndex = 7;
@@ -1135,7 +1094,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label35.AutoSize = true;
             this.label35.Location = new System.Drawing.Point(3, 69);
-            this.label35.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.label35.Margin = new System.Windows.Forms.Padding(3);
             this.label35.Name = "label35";
             this.label35.Size = new System.Drawing.Size(258, 26);
             this.label35.TabIndex = 7;
@@ -1162,7 +1121,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             label16.AutoSize = true;
             label16.Location = new System.Drawing.Point(3, 101);
-            label16.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            label16.Margin = new System.Windows.Forms.Padding(3);
             label16.Name = "label16";
             label16.Size = new System.Drawing.Size(258, 14);
             label16.TabIndex = 52;
@@ -1176,7 +1135,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             label17.AutoSize = true;
             label17.Location = new System.Drawing.Point(3, 121);
-            label17.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            label17.Margin = new System.Windows.Forms.Padding(3);
             label17.Name = "label17";
             label17.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
             label17.Size = new System.Drawing.Size(258, 14);
@@ -1208,18 +1167,6 @@
             this.EventBrowser_ColourEventRow.UseVisualStyleBackColor = true;
             this.EventBrowser_ColourEventRow.CheckedChanged += new System.EventHandler(this.EventBrowser_ColourEventRow_CheckedChanged);
             // 
-            // EventBrowser_AddFake
-            // 
-            this.EventBrowser_AddFake.AutoSize = true;
-            this.EventBrowser_AddFake.Location = new System.Drawing.Point(266, 29);
-            this.EventBrowser_AddFake.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.EventBrowser_AddFake.Name = "EventBrowser_AddFake";
-            this.EventBrowser_AddFake.Size = new System.Drawing.Size(15, 14);
-            this.EventBrowser_AddFake.TabIndex = 57;
-            this.toolTip.SetToolTip(this.EventBrowser_AddFake, "In the Event Browser, add fake markers if none found in capture");
-            this.EventBrowser_AddFake.UseVisualStyleBackColor = true;
-            this.EventBrowser_AddFake.CheckedChanged += new System.EventHandler(this.EventBrowser_AddFake_CheckedChanged);
-            // 
             // label26
             // 
             label26.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -1227,58 +1174,24 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             label26.AutoSize = true;
             label26.Location = new System.Drawing.Point(3, 30);
-            label26.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            label26.Margin = new System.Windows.Forms.Padding(3);
             label26.Name = "label26";
             label26.Size = new System.Drawing.Size(258, 13);
             label26.TabIndex = 56;
             label26.Text = "Add fake markers if none present (requires log reload)";
             label26.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // androidTab
+            // EventBrowser_AddFake
             // 
-            this.androidTab.Controls.Add(this.groupBox7);
-            this.androidTab.Location = new System.Drawing.Point(23, 4);
-            this.androidTab.Name = "androidTab";
-            this.androidTab.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.androidTab.Size = new System.Drawing.Size(344, 407);
-            this.androidTab.TabIndex = 5;
-            this.androidTab.Text = "Android";
-            this.androidTab.UseVisualStyleBackColor = true;
-            // 
-            // groupBox7
-            // 
-            this.groupBox7.Controls.Add(this.tableLayoutPanel8);
-            this.groupBox7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox7.Location = new System.Drawing.Point(3, 3);
-            this.groupBox7.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBox7.Size = new System.Drawing.Size(338, 401);
-            this.groupBox7.TabIndex = 1;
-            this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "Android";
-            // 
-            // tableLayoutPanel8
-            // 
-            this.tableLayoutPanel8.ColumnCount = 2;
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel8.Controls.Add(this.label25, 0, 2);
-            this.tableLayoutPanel8.Controls.Add(this.maxConnectTimeout, 1, 2);
-            this.tableLayoutPanel8.Controls.Add(this.label36, 0, 0);
-            this.tableLayoutPanel8.Controls.Add(this.adbPath, 0, 1);
-            this.tableLayoutPanel8.Controls.Add(this.browseAdbPath, 1, 1);
-            this.tableLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel8.Location = new System.Drawing.Point(4, 17);
-            this.tableLayoutPanel8.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tableLayoutPanel8.Name = "tableLayoutPanel8";
-            this.tableLayoutPanel8.RowCount = 4;
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel8.Size = new System.Drawing.Size(330, 380);
-            this.tableLayoutPanel8.TabIndex = 0;
+            this.EventBrowser_AddFake.AutoSize = true;
+            this.EventBrowser_AddFake.Location = new System.Drawing.Point(266, 29);
+            this.EventBrowser_AddFake.Margin = new System.Windows.Forms.Padding(2);
+            this.EventBrowser_AddFake.Name = "EventBrowser_AddFake";
+            this.EventBrowser_AddFake.Size = new System.Drawing.Size(15, 14);
+            this.EventBrowser_AddFake.TabIndex = 57;
+            this.toolTip.SetToolTip(this.EventBrowser_AddFake, "In the Event Browser, add fake markers if none found in capture");
+            this.EventBrowser_AddFake.UseVisualStyleBackColor = true;
+            this.EventBrowser_AddFake.CheckedChanged += new System.EventHandler(this.EventBrowser_AddFake_CheckedChanged);
             // 
             // label25
             // 
@@ -1287,9 +1200,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label25.AutoSize = true;
             this.label25.Location = new System.Drawing.Point(4, 70);
-            this.label25.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.label25.Margin = new System.Windows.Forms.Padding(4);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(226, 20);
+            this.label25.Size = new System.Drawing.Size(225, 20);
             this.label25.TabIndex = 26;
             this.label25.Text = "Max Connection Timeout (s)";
             this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1299,8 +1212,8 @@
             // 
             this.maxConnectTimeout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.maxConnectTimeout.AutoSize = true;
-            this.maxConnectTimeout.Location = new System.Drawing.Point(238, 70);
-            this.maxConnectTimeout.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.maxConnectTimeout.Location = new System.Drawing.Point(237, 70);
+            this.maxConnectTimeout.Margin = new System.Windows.Forms.Padding(4);
             this.maxConnectTimeout.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -1319,10 +1232,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label36.AutoSize = true;
             this.label36.Location = new System.Drawing.Point(3, 3);
-            this.label36.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.label36.Margin = new System.Windows.Forms.Padding(3);
             this.label36.MinimumSize = new System.Drawing.Size(0, 31);
             this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(228, 31);
+            this.label36.Size = new System.Drawing.Size(227, 31);
             this.label36.TabIndex = 14;
             this.label36.Text = "Android ADB executable path";
             this.label36.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1333,7 +1246,7 @@
             this.adbPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.adbPath.Location = new System.Drawing.Point(3, 41);
             this.adbPath.Name = "adbPath";
-            this.adbPath.Size = new System.Drawing.Size(228, 20);
+            this.adbPath.Size = new System.Drawing.Size(227, 20);
             this.adbPath.TabIndex = 24;
             this.toolTip.SetToolTip(this.adbPath, "The location of adb.exe, used to control Android devices.");
             this.adbPath.TextChanged += new System.EventHandler(this.adbPath_TextChanged);
@@ -1341,7 +1254,7 @@
             // browseAdbPath
             // 
             this.browseAdbPath.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.browseAdbPath.Location = new System.Drawing.Point(237, 40);
+            this.browseAdbPath.Location = new System.Drawing.Point(236, 40);
             this.browseAdbPath.Name = "browseAdbPath";
             this.browseAdbPath.Size = new System.Drawing.Size(90, 23);
             this.browseAdbPath.TabIndex = 7;
@@ -1350,41 +1263,121 @@
             this.browseAdbPath.UseVisualStyleBackColor = true;
             this.browseAdbPath.Click += new System.EventHandler(this.browseAdbPath_Click);
             // 
-            // pagesTree
-            // 
-            treeListColumn1.AutoSize = true;
-            treeListColumn1.AutoSizeMinSize = 0;
-            treeListColumn1.Width = 50;
-            this.pagesTree.Columns.AddRange(new TreelistView.TreeListColumn[] {
-            treeListColumn1});
-            this.pagesTree.ColumnsOptions.HeaderHeight = 1;
-            this.pagesTree.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.pagesTree.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pagesTree.Location = new System.Drawing.Point(3, 3);
-            this.pagesTree.MultiSelect = false;
-            this.pagesTree.Name = "pagesTree";
-            this.pagesTree.RowOptions.ShowHeader = false;
-            this.pagesTree.Size = new System.Drawing.Size(155, 416);
-            this.pagesTree.TabIndex = 0;
-            this.pagesTree.ViewOptions.ShowGridLines = false;
-            this.pagesTree.ViewOptions.ShowLine = false;
-            this.pagesTree.ViewOptions.ShowPlusMinus = false;
-            this.pagesTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.pagesTree_AfterSelect);
-            // 
-            // ok
-            // 
-            this.ok.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ok.Location = new System.Drawing.Point(459, 425);
-            this.ok.Name = "ok";
-            this.ok.Size = new System.Drawing.Size(75, 23);
-            this.ok.TabIndex = 100;
-            this.ok.Text = "OK";
-            this.ok.UseVisualStyleBackColor = true;
-            this.ok.Click += new System.EventHandler(this.ok_Click);
-            // 
             // browserCaptureDialog
             // 
             this.browserCaptureDialog.RootFolder = System.Environment.SpecialFolder.MyComputer;
+            // 
+            // generalTab
+            // 
+            this.generalTab.Controls.Add(groupBox1);
+            this.generalTab.Location = new System.Drawing.Point(23, 4);
+            this.generalTab.Name = "generalTab";
+            this.generalTab.Padding = new System.Windows.Forms.Padding(3);
+            this.generalTab.Size = new System.Drawing.Size(343, 408);
+            this.generalTab.TabIndex = 0;
+            this.generalTab.Text = "General";
+            this.generalTab.UseVisualStyleBackColor = true;
+            // 
+            // corePage
+            // 
+            this.corePage.Controls.Add(this.groupBox5);
+            this.corePage.Location = new System.Drawing.Point(23, 4);
+            this.corePage.Name = "corePage";
+            this.corePage.Padding = new System.Windows.Forms.Padding(3);
+            this.corePage.Size = new System.Drawing.Size(343, 408);
+            this.corePage.TabIndex = 4;
+            this.corePage.Text = "Core";
+            this.corePage.UseVisualStyleBackColor = true;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(tableLayoutPanel6);
+            this.groupBox5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox5.Location = new System.Drawing.Point(3, 3);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(337, 402);
+            this.groupBox5.TabIndex = 0;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Core";
+            // 
+            // texViewTab
+            // 
+            this.texViewTab.Controls.Add(groupBox2);
+            this.texViewTab.Location = new System.Drawing.Point(23, 4);
+            this.texViewTab.Name = "texViewTab";
+            this.texViewTab.Padding = new System.Windows.Forms.Padding(3);
+            this.texViewTab.Size = new System.Drawing.Size(343, 408);
+            this.texViewTab.TabIndex = 1;
+            this.texViewTab.Text = "Texture Viewer";
+            this.texViewTab.UseVisualStyleBackColor = true;
+            // 
+            // shadViewTab
+            // 
+            this.shadViewTab.Controls.Add(groupBox3);
+            this.shadViewTab.Location = new System.Drawing.Point(23, 4);
+            this.shadViewTab.Name = "shadViewTab";
+            this.shadViewTab.Padding = new System.Windows.Forms.Padding(3);
+            this.shadViewTab.Size = new System.Drawing.Size(343, 408);
+            this.shadViewTab.TabIndex = 2;
+            this.shadViewTab.Text = "Shader Viewer";
+            this.shadViewTab.UseVisualStyleBackColor = true;
+            // 
+            // eventTab
+            // 
+            this.eventTab.Controls.Add(groupBox4);
+            this.eventTab.Location = new System.Drawing.Point(23, 4);
+            this.eventTab.Name = "eventTab";
+            this.eventTab.Padding = new System.Windows.Forms.Padding(3);
+            this.eventTab.Size = new System.Drawing.Size(343, 408);
+            this.eventTab.TabIndex = 3;
+            this.eventTab.Text = "Event Browser";
+            this.eventTab.UseVisualStyleBackColor = true;
+            // 
+            // androidTab
+            // 
+            this.androidTab.Controls.Add(this.groupBox7);
+            this.androidTab.Location = new System.Drawing.Point(23, 4);
+            this.androidTab.Name = "androidTab";
+            this.androidTab.Padding = new System.Windows.Forms.Padding(3);
+            this.androidTab.Size = new System.Drawing.Size(343, 408);
+            this.androidTab.TabIndex = 5;
+            this.androidTab.Text = "Android";
+            this.androidTab.UseVisualStyleBackColor = true;
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.tableLayoutPanel8);
+            this.groupBox7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox7.Location = new System.Drawing.Point(3, 3);
+            this.groupBox7.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox7.Size = new System.Drawing.Size(337, 402);
+            this.groupBox7.TabIndex = 1;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Android";
+            // 
+            // tableLayoutPanel8
+            // 
+            this.tableLayoutPanel8.ColumnCount = 2;
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel8.Controls.Add(this.label25, 0, 2);
+            this.tableLayoutPanel8.Controls.Add(this.maxConnectTimeout, 1, 2);
+            this.tableLayoutPanel8.Controls.Add(this.label36, 0, 0);
+            this.tableLayoutPanel8.Controls.Add(this.adbPath, 0, 1);
+            this.tableLayoutPanel8.Controls.Add(this.browseAdbPath, 1, 1);
+            this.tableLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel8.Location = new System.Drawing.Point(4, 17);
+            this.tableLayoutPanel8.Margin = new System.Windows.Forms.Padding(4);
+            this.tableLayoutPanel8.Name = "tableLayoutPanel8";
+            this.tableLayoutPanel8.RowCount = 4;
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel8.Size = new System.Drawing.Size(329, 381);
+            this.tableLayoutPanel8.TabIndex = 0;
             // 
             // SettingsDialog
             // 
@@ -1397,8 +1390,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Settings";
             tableLayoutPanel1.ResumeLayout(false);
-            this.settingsTabs.ResumeLayout(false);
-            this.generalTab.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pagesTree)).EndInit();
             groupBox1.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel2.PerformLayout();
@@ -1406,31 +1398,31 @@
             ((System.ComponentModel.ISupportInitialize)(this.Formatter_NegExp)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Formatter_MaxFigures)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Formatter_MinFigures)).EndInit();
-            this.corePage.ResumeLayout(false);
-            this.groupBox5.ResumeLayout(false);
             tableLayoutPanel6.ResumeLayout(false);
             tableLayoutPanel6.PerformLayout();
-            this.texViewTab.ResumeLayout(false);
             groupBox2.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
-            this.shadViewTab.ResumeLayout(false);
             groupBox3.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
             this.tableLayoutPanel7.ResumeLayout(false);
             this.tableLayoutPanel7.PerformLayout();
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
-            this.eventTab.ResumeLayout(false);
             groupBox4.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.maxConnectTimeout)).EndInit();
+            this.generalTab.ResumeLayout(false);
+            this.corePage.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            this.texViewTab.ResumeLayout(false);
+            this.shadViewTab.ResumeLayout(false);
+            this.eventTab.ResumeLayout(false);
             this.androidTab.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);
             this.tableLayoutPanel8.ResumeLayout(false);
             this.tableLayoutPanel8.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.maxConnectTimeout)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pagesTree)).EndInit();
             this.ResumeLayout(false);
 
         }

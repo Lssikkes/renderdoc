@@ -422,6 +422,33 @@ rdctype::array<byte> ReplayController::GetTextureData(ResourceId tex, uint32_t a
   return ret;
 }
 
+
+int ReplayController::GetRootSignatureData(ResourceId rsig, char* outData)
+{
+	ResourceId liveId = m_pDevice->GetLiveID(rsig);
+
+	if (liveId == ResourceId())
+	{
+		RDCERR("Couldn't get Live ID for %llu getting root sig data", rsig);
+		return 0;
+	}
+
+	return m_pDevice->GetRootSignatureData(liveId, outData);
+}
+
+RootSignatureTree ReplayController::GetRootSignature(ResourceId rsig)
+{
+	ResourceId liveId = m_pDevice->GetLiveID(rsig);
+
+	if (liveId == ResourceId())
+	{
+		RDCERR("Couldn't get Live ID for %llu getting root sig data", rsig);
+		return RootSignatureTree();
+	}
+
+	return m_pDevice->GetRootSignature(liveId);
+}
+
 bool ReplayController::SaveTexture(const TextureSave &saveData, const char *path)
 {
   TextureSave sd = saveData;    // mutable copy
@@ -1969,4 +1996,19 @@ extern "C" RENDERDOC_API void RENDERDOC_CC ReplayRenderer_GetTextureData(IReplay
                                                                          rdctype::array<byte> *data)
 {
   *data = rend->GetTextureData(tex, arrayIdx, mip);
+}
+
+extern "C" RENDERDOC_API int RENDERDOC_CC ReplayRenderer_GetRootSignatureData(IReplayController *rend,
+	ResourceId rsig,
+	char *data)
+{
+	return rend->GetRootSignatureData(rsig, data);
+}
+
+extern "C" RENDERDOC_API int RENDERDOC_CC ReplayRenderer_GetRootSignatureTree(IReplayController *rend,
+	ResourceId rsig,
+	RootSignatureTree *data)
+{
+	*data = rend->GetRootSignature(rsig);
+	return 0;
 }
