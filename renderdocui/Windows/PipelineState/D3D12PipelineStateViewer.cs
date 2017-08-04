@@ -3368,7 +3368,8 @@ div.stage table tr td { border-right: 1px solid #AAAAAA; background-color: #EEEE
 
         private void UpdateRootSignature()
         {
-            if (m_Core.CurD3D12PipelineState.rootSig == ResourceId.Null)
+            var rsig = m_Core.CurD3D12PipelineState.rootSig;
+            if (rsig == ResourceId.Null)
             {
                 treeRootSignature.Nodes.Clear();
                 return;
@@ -3377,11 +3378,12 @@ div.stage table tr td { border-right: 1px solid #AAAAAA; background-color: #EEEE
             RootSignatureTree rst = null;
             m_Core.Renderer.Invoke((ReplayRenderer r) =>
             {
-                rst = r.GetRootSignature(m_Core.CurD3D12PipelineState.rootSig);
+                rst = r.GetRootSignature(rsig);
             });
             
             treeRootSignature.Nodes.Clear();
-            foreach(var row in rst.entries)
+            treeRootSignature.Nodes.Add(new object[] { "*", "ID", rsig.ToString() });
+            foreach (var row in rst.entries)
             {
                 treeRootSignature.Nodes.Add(new object[] { row.index, row.type, row.description });
             }
