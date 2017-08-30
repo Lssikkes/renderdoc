@@ -162,11 +162,17 @@ void D3D11DebugManager::FillCBufferVariables(const string &prefix, size_t &offse
     VarType type = VarType::Float;
     switch(invars[v].type.descriptor.type)
     {
+      case VARTYPE_MIN12INT:
+      case VARTYPE_MIN16INT:
       case VARTYPE_INT: type = VarType::Int; break;
+      case VARTYPE_MIN8FLOAT:
+      case VARTYPE_MIN10FLOAT:
+      case VARTYPE_MIN16FLOAT:
       case VARTYPE_FLOAT: type = VarType::Float; break;
       case VARTYPE_BOOL:
       case VARTYPE_UINT:
-      case VARTYPE_UINT8: type = VarType::UInt; break;
+      case VARTYPE_UINT8:
+      case VARTYPE_MIN16UINT: type = VarType::UInt; break;
       case VARTYPE_DOUBLE:
         elemByteSize = 8;
         type = VarType::Double;
@@ -832,6 +838,45 @@ void D3D11DebugManager::CreateShaderGlobalState(ShaderDebug::GlobalState &global
         if(sdesc.Format == DXGI_FORMAT_R10G10B10A2_UINT ||
            sdesc.Format == DXGI_FORMAT_R10G10B10A2_UNORM)
           global.srvs[i].format.byteWidth = 10;
+      }
+      else
+      {
+        D3D11_RESOURCE_DIMENSION dim;
+        res->GetType(&dim);
+
+        if(dim == D3D11_RESOURCE_DIMENSION_BUFFER)
+        {
+          ID3D11Buffer *buf = (ID3D11Buffer *)res;
+          D3D11_BUFFER_DESC bufdesc;
+          buf->GetDesc(&bufdesc);
+
+          global.srvs[i].format.stride = bufdesc.StructureByteStride;
+
+          // if we didn't get a type from the SRV description, try to pull it from the declaration
+          for(const DXBC::ShaderInputBind &bind : dxbc->m_Resources)
+          {
+            if(bind.reg == (uint32_t)i && bind.dimension == DXBC::ShaderInputBind::DIM_BUFFER &&
+               bind.retType < DXBC::ShaderInputBind::RETTYPE_MIXED &&
+               bind.retType != DXBC::ShaderInputBind::RETTYPE_UNKNOWN)
+            {
+              global.srvs[i].format.byteWidth = 4;
+              global.srvs[i].format.numComps = bind.numSamples;
+
+              if(bind.retType == DXBC::ShaderInputBind::RETTYPE_UNORM)
+                global.srvs[i].format.fmt = CompType::UNorm;
+              else if(bind.retType == DXBC::ShaderInputBind::RETTYPE_SNORM)
+                global.srvs[i].format.fmt = CompType::SNorm;
+              else if(bind.retType == DXBC::ShaderInputBind::RETTYPE_UINT)
+                global.srvs[i].format.fmt = CompType::UInt;
+              else if(bind.retType == DXBC::ShaderInputBind::RETTYPE_SINT)
+                global.srvs[i].format.fmt = CompType::SInt;
+              else
+                global.srvs[i].format.fmt = CompType::Float;
+
+              break;
+            }
+          }
+        }
       }
 
       if(sdesc.ViewDimension == D3D11_SRV_DIMENSION_BUFFER)
@@ -1554,7 +1599,8 @@ ShaderDebugTrace D3D11DebugManager::DebugPixel(uint32_t eventID, uint32_t x, uin
     {
       const SigParameter &prev = dxbc->m_InputSig[i - 1];
 
-      if(prev.compCount <= 2 && prev.regChannelMask <= 0x3)
+      if(prev.regIndex != dxbc->m_InputSig[i].regIndex && prev.compCount <= 2 &&
+         prev.regChannelMask <= 0x3)
         arrayLength = 1;
     }
 
@@ -5833,36 +5879,28 @@ vector<PixelModification> D3D11DebugManager::PixelHistory(vector<EventUsage> eve
       {
         WrappedID3D11RenderTargetView1 *rtv = (WrappedID3D11RenderTargetView1 *)view;
 
-        ResourceRange viewRange(rtv);
-
-        if(viewRange.Intersects(resourceRange))
+        if(rtv->GetResourceRange().Intersects(resourceRange))
           used = true;
       }
       else if(WrappedID3D11DepthStencilView::IsAlloc(view))
       {
         WrappedID3D11DepthStencilView *dsv = (WrappedID3D11DepthStencilView *)view;
 
-        ResourceRange viewRange(dsv);
-
-        if(viewRange.Intersects(resourceRange))
+        if(dsv->GetResourceRange().Intersects(resourceRange))
           used = true;
       }
       else if(WrappedID3D11ShaderResourceView1::IsAlloc(view))
       {
         WrappedID3D11ShaderResourceView1 *srv = (WrappedID3D11ShaderResourceView1 *)view;
 
-        ResourceRange viewRange(srv);
-
-        if(viewRange.Intersects(resourceRange))
+        if(srv->GetResourceRange().Intersects(resourceRange))
           used = true;
       }
       else if(WrappedID3D11UnorderedAccessView1::IsAlloc(view))
       {
         WrappedID3D11UnorderedAccessView1 *uav = (WrappedID3D11UnorderedAccessView1 *)view;
 
-        ResourceRange viewRange(uav);
-
-        if(viewRange.Intersects(resourceRange))
+        if(uav->GetResourceRange().Intersects(resourceRange))
           used = true;
       }
       else

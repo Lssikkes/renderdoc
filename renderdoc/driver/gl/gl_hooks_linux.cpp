@@ -42,6 +42,7 @@ typedef XVisualInfo *(*PFNGLXGETVISUALFROMFBCONFIGPROC)(Display *dpy, GLXFBConfi
 typedef int (*PFNGLXGETCONFIGPROC)(Display *dpy, XVisualInfo *vis, int attrib, int *value);
 typedef Bool (*PFNGLXQUERYEXTENSIONPROC)(Display *dpy, int *errorBase, int *eventBase);
 typedef Bool (*PFNGLXISDIRECTPROC)(Display *dpy, GLXContext ctx);
+typedef __GLXextFuncPtr (*PFNGLXGETPROCADDRESSARBPROC)(const GLubyte *procName);
 
 class OpenGLHook : LibraryHook, public GLPlatform
 {
@@ -252,6 +253,8 @@ public:
       RDCERR("Unexpected window system %u", system);
     }
 
+    // GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB MUST be the last attrib so that we can remove it to retry
+    // if we find no srgb fbconfigs
     static int visAttribs[] = {GLX_X_RENDERABLE,
                                True,
                                GLX_DRAWABLE_TYPE,
@@ -271,8 +274,25 @@ public:
                                GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB,
                                True,
                                0};
+
     int numCfgs = 0;
     GLXFBConfig *fbcfg = glXChooseFBConfig_real(dpy, DefaultScreen(dpy), visAttribs, &numCfgs);
+
+    if(fbcfg == NULL)
+    {
+      const size_t len = ARRAY_COUNT(visAttribs);
+      if(visAttribs[len - 3] != GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB)
+      {
+        RDCERR(
+            "GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB isn't the last attribute, and no SRGB fbconfigs were "
+            "found!");
+      }
+      else
+      {
+        visAttribs[len - 3] = 0;
+        fbcfg = glXChooseFBConfig_real(dpy, DefaultScreen(dpy), visAttribs, &numCfgs);
+      }
+    }
 
     if(fbcfg == NULL)
     {
@@ -363,6 +383,7 @@ public:
   PFNGLXDESTROYCONTEXTPROC glXDestroyContext_real;
   PFNGLXCREATECONTEXTATTRIBSARBPROC glXCreateContextAttribsARB_real;
   PFNGLXGETPROCADDRESSPROC glXGetProcAddress_real;
+  PFNGLXGETPROCADDRESSARBPROC glXGetProcAddressARB_real;
   PFNGLXMAKECURRENTPROC glXMakeCurrent_real;
   PFNGLXMAKECONTEXTCURRENTPROC glXMakeContextCurrent_real;
   PFNGLXSWAPBUFFERSPROC glXSwapBuffers_real;
@@ -388,6 +409,9 @@ public:
     if(glXGetProcAddress_real == NULL)
       glXGetProcAddress_real =
           (PFNGLXGETPROCADDRESSPROC)dlsym(libGLdlsymHandle, "glXGetProcAddress");
+    if(glXGetProcAddressARB_real == NULL)
+      glXGetProcAddressARB_real =
+          (PFNGLXGETPROCADDRESSPROC)dlsym(libGLdlsymHandle, "glXGetProcAddressARB");
     if(glXCreateContext_real == NULL)
       glXCreateContext_real = (PFNGLXCREATECONTEXTPROC)dlsym(libGLdlsymHandle, "glXCreateContext");
     if(glXDestroyContext_real == NULL)
@@ -417,6 +441,15 @@ public:
           (PFNGLXCHOOSEFBCONFIGPROC)dlsym(libGLdlsymHandle, "glXChooseFBConfig");
     if(glXQueryDrawable_real == NULL)
       glXQueryDrawable_real = (PFNGLXQUERYDRAWABLEPROC)dlsym(RTLD_NEXT, "glXQueryDrawable");
+
+    // glXCreateContextAttribsARB may not be directly exported by libGL.so, so try to fetch it
+    // through the glXGetProcAddress function, favouring the ARB variant.
+    if(glXCreateContextAttribsARB_real == NULL && glXGetProcAddressARB_real)
+      glXCreateContextAttribsARB_real = (PFNGLXCREATECONTEXTATTRIBSARBPROC)glXGetProcAddressARB_real(
+          (const GLubyte *)"glXCreateContextAttribsARB");
+    if(glXCreateContextAttribsARB_real == NULL && glXGetProcAddress_real)
+      glXCreateContextAttribsARB_real = (PFNGLXCREATECONTEXTATTRIBSARBPROC)glXGetProcAddress_real(
+          (const GLubyte *)"glXCreateContextAttribsARB");
 
     return success;
   }
