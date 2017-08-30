@@ -589,7 +589,7 @@ WrappedID3D12GraphicsCommandList::WrappedID3D12GraphicsCommandList(ID3D12Graphic
                                                                    WrappedID3D12Device *device,
                                                                    Serialiser *serialiser,
                                                                    LogState &state)
-    : RefCounter12(real), m_pDevice(device), m_State(state)
+    : RefCounter12(real), m_pDevice(device), m_State(state), m_AMDMarkers(nullptr)
 {
   if(RenderDoc::Inst().GetCrashHandler())
     RenderDoc::Inst().GetCrashHandler()->RegisterMemoryRegion(

@@ -8196,9 +8196,14 @@ void VulkanDebugManager::InitPostVSBuffers(uint32_t eventID)
     // descSet will be the index of our new descriptor set
     descSetLayouts = new VkDescriptorSetLayout[descSet + 1];
 
-    for(uint32_t i = 0; i < descSet; i++)
-      descSetLayouts[i] = GetResourceManager()->GetCurrentHandle<VkDescriptorSetLayout>(
-          creationInfo.m_PipelineLayout[pipeInfo.layout].descSetLayouts[i]);
+	for (uint32_t i = 0; i < descSet; i++)
+	{
+		auto& vpipeLayout = creationInfo.m_PipelineLayout[pipeInfo.layout];
+		if (i < vpipeLayout.descSetLayouts.size())
+			descSetLayouts[i] = GetResourceManager()->GetCurrentHandle<VkDescriptorSetLayout>(vpipeLayout.descSetLayouts[i]);
+		else
+			descSetLayouts[i] = m_MeshFetchDescSetLayout;
+	}
 
     // this layout just says it has one storage buffer
     descSetLayouts[descSet] = m_MeshFetchDescSetLayout;
