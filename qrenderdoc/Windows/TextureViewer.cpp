@@ -3188,7 +3188,7 @@ void TextureViewer::on_mipLevel_currentIndexChanged(int index)
     ui->sliceFace->clear();
 
     for(uint32_t i = 0; i < numSlices; i++)
-      ui->sliceFace->addItem(tr("Slice ") + i);
+      ui->sliceFace->addItem(tr("Slice %1").arg(i));
 
     // changing sliceFace index will handle updating range & re-picking
     ui->sliceFace->setCurrentIndex((int)qBound(0U, newSlice, numSlices - 1));
@@ -3343,6 +3343,7 @@ void TextureViewer::on_saveTex_clicked()
 
   TextureSave config;
   memset(&config, 0, sizeof(config));
+  config.jpegQuality = 90;
 
   config.id = m_TexDisplay.texid;
   config.typeHint = m_TexDisplay.typeHint;

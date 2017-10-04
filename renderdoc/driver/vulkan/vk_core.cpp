@@ -2809,9 +2809,9 @@ void WrappedVulkan::AddDrawcall(const DrawcallDescription &d, bool hasEvents)
       vector<uint32_t> &colAtt = m_CreationInfo.m_RenderPass[rp].subpasses[sp].colorAttachments;
       int32_t dsAtt = m_CreationInfo.m_RenderPass[rp].subpasses[sp].depthstencilAttachment;
 
-      RDCASSERT(colAtt.size() < 8);
+      RDCASSERT(colAtt.size() <= ARRAY_COUNT(draw.outputs));
 
-      for(int i = 0; i < 8 && i < (int)colAtt.size(); i++)
+      for(size_t i = 0; i < ARRAY_COUNT(draw.outputs) && i < colAtt.size(); i++)
       {
         if(colAtt[i] == VK_ATTACHMENT_UNUSED)
           continue;
@@ -3108,15 +3108,15 @@ void WrappedVulkan::AddEvent(string description)
   m_EventMessages.clear();
 }
 
-APIEvent WrappedVulkan::GetEvent(uint32_t eventID)
+const APIEvent &WrappedVulkan::GetEvent(uint32_t eventID)
 {
-  for(size_t i = m_Events.size() - 1; i > 0; i--)
+  for(const APIEvent &e : m_Events)
   {
-    if(m_Events[i].eventID <= eventID)
-      return m_Events[i];
+    if(e.eventID >= eventID)
+      return e;
   }
 
-  return m_Events[0];
+  return m_Events.back();
 }
 
 const DrawcallDescription *WrappedVulkan::GetDrawcall(uint32_t eventID)

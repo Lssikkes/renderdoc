@@ -24,6 +24,7 @@
  ******************************************************************************/
 
 #include "driver/gl/gl_manager.h"
+#include <algorithm>
 #include "driver/gl/gl_driver.h"
 
 struct VertexAttribInitialData
@@ -1069,11 +1070,31 @@ bool GLResourceManager::Serialise_InitialState(ResourceId resid, GLResource res)
 
       GLuint initProg = gl.glCreateProgram();
 
+      std::vector<std::string> vertexOutputs;
       for(size_t i = 0; i < details.shaders.size(); i++)
       {
         const auto &shadDetails = m_GL->m_Shaders[details.shaders[i]];
 
         GLuint shad = gl.glCreateShader(shadDetails.type);
+
+        if(shadDetails.type == eGL_VERTEX_SHADER)
+        {
+          for(int s = 0; s < shadDetails.reflection.OutputSig.count; s++)
+          {
+            std::string name = shadDetails.reflection.OutputSig[s].varName.c_str();
+
+            // look for :row added to split up matrix variables
+            size_t colon = name.find(":row");
+
+            // remove it, if present
+            if(colon != std::string::npos)
+              name.resize(colon);
+
+            // only push matrix variables once
+            if(std::find(vertexOutputs.begin(), vertexOutputs.end(), name) == vertexOutputs.end())
+              vertexOutputs.push_back(name);
+          }
+        }
 
         char **srcs = new char *[shadDetails.sources.size()];
         for(size_t s = 0; s < shadDetails.sources.size(); s++)
@@ -1086,10 +1107,31 @@ bool GLResourceManager::Serialise_InitialState(ResourceId resid, GLResource res)
         gl.glDeleteShader(shad);
       }
 
+      // Some drivers optimize out uniforms if they dont change any active vertex shader outputs.
+      // This resulted in initProg locationTranslate table being -1 for a particular shader where
+      // some uniforms were only intended to affect TF. Therefore set a TF mode for all varyings.
+      // As the initial state program is never used for TF, this wont adversely affect anything.
+
+      std::vector<const char *> vertexOutputsPtr;
+      vertexOutputsPtr.resize(vertexOutputs.size());
+      for(size_t i = 0; i < vertexOutputs.size(); i++)
+        vertexOutputsPtr[i] = vertexOutputs[i].c_str();
+      gl.glTransformFeedbackVaryings(initProg, (GLsizei)vertexOutputsPtr.size(),
+                                     &vertexOutputsPtr[0], eGL_INTERLEAVED_ATTRIBS);
       gl.glLinkProgram(initProg);
 
       GLint status = 0;
       gl.glGetProgramiv(initProg, eGL_LINK_STATUS, &status);
+
+      // if it failed to link, first remove the varyings hack above as maybe the driver is barfing
+      // on trying to make some output a varying
+      if(status == 0)
+      {
+        gl.glTransformFeedbackVaryings(initProg, 0, NULL, eGL_INTERLEAVED_ATTRIBS);
+        gl.glLinkProgram(initProg);
+
+        gl.glGetProgramiv(initProg, eGL_LINK_STATUS, &status);
+      }
 
       // if it failed to link, try again as a separable program.
       // we can't do this by default because of the silly rules meaning
